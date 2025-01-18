@@ -178,7 +178,16 @@ the complexity of the classification task, necessitating robust feature extracti
 To further understand the dataset's characteristics, the dimensions of all images were analyzed, yielding an average
 resolution of approximately \(630 \times 534\) pixels. The aspect ratio distribution centers around 1.2, with minor
 outliers. This uniformity in image dimensions simplifies preprocessing requirements but necessitates consistent
-resizing for compatibility with convolutional neural networks.
+resizing for compatibility with convolutional neural networks. Furthermore, a comparison is made between flowers
+extracted from 10 randomly selected classes, and flowers extracted from a specific class [Fig.4]. This visualization was made
+to underscore the diversity within the dataset, and to highlight the consistency of samples for a particular category at the same time.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/Sample Random Instances from 10 Random Classes (Top) vs Sample Random Images from a Specific Class (Bottom)}
+    \caption{Sample Images from Top 5 Classes}
+\end{figure}
+
 
 \section{The Methodological Approach}
 
