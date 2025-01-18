@@ -144,10 +144,10 @@ hand-crafted features for classification. This project, however, leverages CNN-b
 advantages of transfer learning with pre-trained deep learning architectures.
 
 The dataset poses significant challenges due to its inherent imbalance: the most populated class contains 258 images
-(Petunia), while the least populated class includes only 40 images (e.g., Pink Primrose). A quantitative analysis [Fig.1]
-reveals that the average number of images per class is 80.28, with substantial variance indicating the presence of class imbalance.
-To address this issue, a data augmentation strategy was implemented to ensure a more uniform distribution across classes.
-The augmentation included transformations such as rotation, width shift, height shift, zoom, and flips.
+(Petunia), while the least populated class includes only 40 images (e.g., Pink Primrose). A quantitative analysis
+[Fig.1] reveals that the average number of images per class is 80.28, with substantial variance indicating the presence
+of class imbalance. To address this issue, a data augmentation strategy was implemented to ensure a more uniform distribution
+across classes. The augmentation included transformations such as rotation, width shift, height shift, zoom, and flips.
 
 \begin{figure}[h!]
     \centering
@@ -155,32 +155,25 @@ The augmentation included transformations such as rotation, width shift, height 
     \caption{Distribution of Image Aspect Ratios}
 \end{figure}
 
+
+Qualitative insights into the dataset were gained through visualizations. A bar plot [Fig.2] of class distributions highlights
+the imbalance, while a subset of images from the top five most populated classes [Fig.3] showcases intra-class variability,
+pose variations, and image quality. For instance, the Petunia class exhibits notable pose diversity, while inter-class
+similarity is observed between Wallflower and Watercress. Additionally, intra-class variation is evident in the Water
+Lily class, where samples within the same category differ significantly in appearance. Such variability may increase
+the complexity of the classification task, necessitating robust feature extraction techniques.
+
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{Images/Distribution of Images per Class}
     \caption{Distribution of Images per Class}
 \end{figure}
 
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{Images/Sample Images from Top 5 Classes}
     \caption{Sample Images from Top 5 Classes}
 \end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{Images/Sample Random Instances from 10 Random Classes (Top) vs Sample Random Images from a Specific Class (Bottom)}
-    \caption{Sample Random Instances from 10 Random Classes (Top) vs Sample Random Images from a Specific Class (Bottom)}
-\end{figure}
-
-
-Qualitative insights into the dataset were gained through visualizations. A bar plot of class distributions highlights
-the imbalance, while a subset of images from the top five most populated classes showcases intra-class variability,
-pose variations, and image quality. For instance, the Petunia class exhibits notable pose diversity, while inter-class
-similarity is observed between Wallflower and Watercress. Additionally, intra-class variation is evident in the Water
-Lily class, where samples within the same category differ significantly in appearance. Such variability may increase
-the complexity of the classification task, necessitating robust feature extraction techniques.
 
 To further understand the dataset's characteristics, the dimensions of all images were analyzed, yielding an average
 resolution of approximately \(630 \times 534\) pixels. The aspect ratio distribution centers around 1.2, with minor
