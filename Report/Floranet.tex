@@ -281,10 +281,10 @@ datasets such as ImageNet. In this project, each architecture was initialized wi
 the flower classification task. To prevent overfitting and improve generalization, several experiments were made for each network:
 
 \begin{itemize}
-    \item \textbf{Totally Frozen Base Model with Standard Training Data}: in this configuration, all layers are frozen, and the model is trained using the standard training data generator (`train\_generator`).
-    \item \textbf{Totally Frozen Base Model with Augmented Training Data}: this configuration is similar to the first, but it uses data augmentation by employing the `train\_generator\_aug` data generator, which should help enhance generalization.
-    \item \textbf{Partially Frozen Base Model with Standard Training Data}: in this case, `70\%` of the layers are frozen instead of `100\%`. The model is then trained with the standard training data generator.
-    \item \textbf{Partially Frozen Base Model with Augmented Training Data}: this configuration mirrors the third, with `70\%` of the layers frozen, but it incorporates data augmentation during training
+    \item \textit{Totally Frozen (100\%) Base Model with Standard Training Data}
+    \item \textit{Totally Frozen (100\%) Base Model with Augmented Training Data}
+    \item \textit{Partially Frozen (70\%) Base Model with Standard Training Data}
+    \item \textit{Partially Frozen (70\%) Base Model with Augmented Training Data}
 \end{itemize}
 
 Furthermore, dropout layers were added after the dense layers to further mitigate overfitting and improve model
@@ -426,8 +426,6 @@ efficient and effective solution for the given task, achieving a 96.98\% test ac
 %----------------------------------------------------------------------------------------
 % REFERENCES
 %----------------------------------------------------------------------------------------
-
-\vspace{3cm}
 
 \begin{thebibliography}{99}
 
