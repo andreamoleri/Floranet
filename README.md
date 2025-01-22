@@ -1,4 +1,4 @@
-# Floranet
+# 🌸 Floranet
 
 
 Floranet is a deep learning notebook focused on classifying flowers from the Oxford Flower Dataset. By leveraging 
@@ -62,27 +62,35 @@ process is as follows:
 
 ---
 
-## Skip Training Option
+## Skip Options
 
 If you want to skip the training process and directly use pre-trained models:
 - [Download the pre-trained models](https://drive.google.com/file/d/13Vy6ADjVWiDwFA8tuon6MI7cLiuunOfe/view?usp=share_link), 
 which are available exclusively for members of Università degli Studi di Milano-Bicocca
 - Unzip the `Floranet Models.zip` file, and paste its content into the `Models` directory
 
-- Note: the results file (`results.csv`) generation can also be automatically skipped generated or updated based on the available models.
+The results file (`results.csv`) generation can also be skipped. In order to to so, please follow the following steps
 
+- [Download the results.csv file](https://github.com/andreamoleri/Floranet/blob/main/Models/results.csv), which is available
+to everyone on my personal GitHub repository
+- Paste the file into the `Models` directory
 ---
 
 ## Libraries Used
 
 The project relies on the following main libraries:
 
-- **TensorFlow**: 2.10.0
-- **scikit-learn**: 1.2.2
-- **Pandas**: 1.5.3
-- **NumPy**: 1.23.5
-- **Matplotlib**: 3.7.1
-- **Requests**: 2.31.0
+- **Pathlib** | 1.0.1
+- **Requests** | 2.31.0
+- **Pandas** | 2.0.3
+- **Seaborn** | 0.13.2
+- **Matplotlib** | 3.10.0
+- **Tensorflow** | 2.16.2
+- **Numpy** | 1.26.4
+- **Scipy** | 1.11.1
+- **Pillow** | 11.0.0
+- **Scikit-learn** | 1.5.2
+- **iPython** | 8.15.0
 
 > **Note:** The code has been tested with these library versions. Compatibility with other versions is not guaranteed.
 
@@ -94,16 +102,38 @@ The project relies on the following main libraries:
 Project Directory
 |
 |-- Data/                      # Contains processed datasets
-|   |-- images/                # Original images
-|   |-- segmented_images/      # Segmented images
+|   |-- images/                # Contains Original images
+|   |-- segmented_images/      # Contains Segmented images
+|   |-- imagelabels.mat        # Image labels
 |   |-- train_set.csv          # Training data
 |   |-- valid_set.csv          # Validation data
 |   |-- test_set.csv           # Test data
 |
-|-- Models/                    # Contains saved models and results
-|   |-- [ModelName]/           # Individual model directories
-|-- Notebook.ipynb             # Main notebook
+|-- Export/                    # Contains KeyNote presentations
+|
+|-- Models/                    # Contains models and reports
+|   |-- model_densenet1/       # Contains 1st DenseNet experiment
+|   |-- model_densenet2/       # Contains 2nd DenseNet experiment
+|   |-- model_densenet3/       # Contains 3rd DenseNet experiment
+|   |-- model_densenet4/       # Contains 4th DenseNet experiment
+|   |-- model_inception1/      # Contains 1st Inception experiment
+|   |-- model_inception2/      # Contains 2nd Inception experiment
+|   |-- model_inception3/      # Contains 3rd Inception experiment
+|   |-- model_inception4/      # Contains 4th Inception experiment 
+|   |-- model_vgg1/            # Contains 1st VGG experiment
+|   |-- model_vgg2/            # Contains 2nd VGG experiment
+|   |-- model_vgg3/            # Contains 3rd VGG experiment
+|   |-- model_vggg4/           # Contains 4th VGG experiment 
+|   |-- results.csv            # Contains experiment results dataframe
+|
+|-- Report/
+|   |-- Images/                # Contains images used by the LaTeX report
+|   |-- Floranet.tex           # LaTeX Report of the project
+|   |-- Floranet.pdf           # PDF Report of the project
+|
+|-- Floranet.ipynb             # Main notebook
 |-- requirements.txt           # List of required libraries
+|-- README.md                  # The file you're reading right now
 ```
 
 ---
@@ -118,13 +148,13 @@ Evaluation results are summarized in `Models/results.csv`. Key metrics include:
 
 Example of a results summary:
 
-| Model Name | Train Accuracy | Val Accuracy | Test Accuracy | Duration |
-|------------|----------------|--------------|---------------|----------|
-| VGG16      | 92.1%          | 88.7%        | 87.3%         | 2h 15m   |
-| DenseNet   | 91.5%          | 89.2%        | 88.1%         | 2h 30m   |
+| Model Name       | Duration | Train Accuracy | Train Loss | Val Accuracy | Val Loss | Test Accuracy | Test Loss | Predictions             | 
+|------------------|----------|----------------|------------|--------------|----------|---------------|-----------|-------------------------|
+| model_densenet3  | 0:16:11  | 0.996685       | 0.087682   | 0.965798     | 0.219276 | 0.969894      | 0.221566  | [52 46  4 ... 15 37 78] |
+| model_inception4 | 0:45:28  | 1.000000       | 0.049704   | 0.942997     | 0.301577 | 0.941416      | 0.282513  | [52 46  4 ... 15 37 78] |
 
 For more details, refer to the `results.csv` file.
 
 ---
 
-For any issues or questions, please contact [your-email@example.com].
+For any issues or questions, please contact us at a.moleri@campus.unimib.it and f.armani1@campus.unimib.it.
