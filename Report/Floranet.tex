@@ -212,7 +212,7 @@ to underscore the diversity within the dataset, and to highlight the consistency
 \subsection{Data Preprocessing}
 
 The first step in the methodology involved preparing the dataset. The dataset was prepared by splitting it into
-training, validation, and test sets (70%, 15%, and 15%, respectively) using a stratified method to maintain class
+training, validation, and test sets (70\%, 15\%, and 15\%, respectively) using a stratified method to maintain class
 balance. Despite some classes being over or underrepresented, this approach ensured proportional distribution across
 subsets, minimizing biases and improving model generalization. One-Hot Encoding was applied to the target labels to
 treat each class independently, and the preprocessed data was saved in CSV files for further processing.
@@ -386,11 +386,11 @@ without it (15-20 minutes).
 
 \vspace{0.3cm}
 
-DenseNet121 emerged as the most effective architecture, achieving the highest validation accuracy and a test
-accuracy of `96.98\%`. The additional time needed for including data augmentation in the training process did not
-correspond to substantial accuracy gains, suggesting that augmentation's utility should be weighed against its computational
-cost. To further confirm our hypotheses, a deeper analysis of `model\_densenet3` will be conducted using its
-classification report and confusion matrix [Fig.10].
+DenseNet121 (with no data augmentation and 70\% freezing) emerges as the most effective architecture, achieving the
+highest validation accuracy and a test accuracy of 96.98\%. The additional time needed for including data augmentation
+in the training process (0:16:11 vs 0:52:16), in DenseNet, did not correspond to substantial accuracy gains, suggesting that augmentation's utility should
+be weighed against its computational cost. To further confirm our hypotheses, a deeper analysis of model\_densenet3
+will be conducted using its classification report and confusion matrix [Fig.10].
 
 \begin{figure}[h!]
     \centering
@@ -398,19 +398,16 @@ classification report and confusion matrix [Fig.10].
     \caption{Confusion Matrix}
 \end{figure}
 
-\vspace{20cm}
-
-
-
-
-
-
-
-
-
-The classification report for `model_densenet3` reveals remarkable performance across all classes. The precision, recall, and F1-score values are consistently high, with many classes achieving perfect scores (`1.00`), indicating the model's excellent ability to correctly identify the majority of the samples for these classes. The macro and weighted averages of `0.97` for accuracy highlight that the model performs equally well on average across all classes, without significant bias toward any particular class. The model performs particularly well on smaller classes, with precision and recall near perfect in many cases. However, there are some instances where recall dips slightly, such as in class `2`, which has a recall of `0.67` but still maintains a decent F1-score of `0.80`. Despite these small variations, `model_densenet3` proves to be a very strong performer, effectively handling a diverse set of categories with high accuracy and balanced metrics, which justifies its selection as the best model.
-
-The confusion matrix visualization for `model_densenet3` provides additional insights that strongly support our previous conclusions about the model's performance. The most striking feature is the prominent diagonal line from the top-left to bottom-right, representing correct classifications. This strong pattern indicates that the model achieves high accuracy across the vast majority of classes. The matrix's sparsity outside the main diagonal is particularly noteworthy - there are very few off-diagonal elements, and those that exist appear in light colors, indicating minimal misclassifications. The scattered yellow markers represent the few cases where misclassifications occurred, but their relative scarcity and distribution pattern suggest these are isolated incidents rather than systematic errors. This detailed matrix visualization reinforces our earlier analysis of the classification metrics. The clear dominance of correct classifications along the diagonal, combined with the minimal and well-distributed nature of the errors, provides strong visual confirmation that `model_densenet3` is indeed achieving the high performance indicated by its statistical metrics. The absence of any significant error patterns or clusters in the confusion matrix also suggests that the model has successfully learned discriminative features for each class, without showing undue bias toward any particular category.
+The classification report for model\_densenet3 demonstrates outstanding performance across all categories, with
+consistently high precision, recall, and F1-scores. Many classes achieve perfect scores (1.00), reflecting the model's
+exceptional capability to accurately identify most samples. Both macro and weighted averages of 0.97 underscore its
+balanced performance across all classes, avoiding significant bias. The model excels particularly with smaller classes,
+where precision and recall are nearly flawless. Although minor variations exist, such as class 2 having a recall of 0.67
+but maintaining an F1-score of 0.80, these do not detract from the model's overall robustness and versatility.
+The confusion matrix further corroborates these findings, highlighting a dominant diagonal line indicative of high
+accuracy across the majority of classes. Sparse off-diagonal elements and the light intensity of the few misclassifications
+suggest errors are minimal and isolated rather than systematic. The absence of significant error clusters confirms that
+the model has effectively learned discriminative features without displaying bias toward any particular category.
 
 %----------------------------------------------------------------------------------------
 % CONCLUSION
@@ -418,19 +415,17 @@ The confusion matrix visualization for `model_densenet3` provides additional ins
 
 \subsection{Conclusion}
 
-In conclusion, based on the current set of experiments, \texttt{model\_densenet3}, which uses `70\%` freeze without data augmentation, is the most balanced model in terms of performance, training time, and generalization. This model is recommended for the flower classification task, although future work should focus on optimizing and testing additional architectures to further improve upon these results.
+This study evaluated the performance of three deep learning architectures—VGG16, InceptionV3, and DenseNet121—across
+a range of experimental conditions. The primary aim was to investigate the influence of various strategies and
+architectural choices on model performance, generalization, and computational efficiency. Among the tested configurations,
+DenseNet121 with 70\% of its layers frozen and no data augmentation was identified as the most effective model
+for the flower classification task. This configuration achieved the highest validation and test accuracies, demonstrating
+an optimal balance between computational efficiency and model performance. It offered robust results coupled with
+reduced training time, making it the most efficient and effective solution for the given task, achieving a 96.98\% test accuracy.
 
-\subsection{Summary of Key Findings}
-
-In this study, we analyzed the performance of three deep learning models—VGG16, InceptionV3, and DenseNet121—under various experimental configurations. The primary focus was to evaluate the impact of different freeze percentages and data augmentation strategies on model performance, particularly in terms of generalization and computational efficiency.
-
-The results of our experiments confirmed the following key points:
-
-\begin{itemize}
-    \item The `70\%` freeze configuration consistently outperformed the `100\%` freeze configuration across all models, leading to better validation and test accuracies. This suggests that allowing some fine-tuning of pre-trained layers significantly enhances the models' ability to adapt to the task at hand.
-    \item Data augmentation, while beneficial in some cases, had a relatively minor effect on overall performance. In particular, DenseNet121 did not experience substantial improvements with augmentation compared to non-augmented configurations. The impact of data augmentation on generalization was most notable with InceptionV3, where it helped reduce overfitting, but the performance gain was not always large enough to justify the additional training time.
-    \item DenseNet121 with the `70\%` freeze percentage emerged as the best-performing model, achieving the highest validation and test accuracies. This model also offered the best balance between computational efficiency and accuracy, as its performance remained robust even without data augmentation, thus saving valuable training time.
-\end{itemize}
+%----------------------------------------------------------------------------------------
+% REFERENCES
+%----------------------------------------------------------------------------------------
 
 \section*{References}
 
