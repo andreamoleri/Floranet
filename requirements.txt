@@ -1,0 +1,11 @@
+pathlib==1.0.1
+requests==2.31.0
+pandas==2.0.3
+seaborn==0.13.2
+matplotlib==3.10.0
+tensorflow==2.16.2
+numpy==1.26.4
+scipy==1.11.1
+pillow==11.0.0
+scikit-learn==1.5.2
+ipython==8.15.0
