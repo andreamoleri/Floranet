@@ -67,13 +67,13 @@ process is as follows:
 If you want to skip the training process and directly use pre-trained models:
 - [Download the pre-trained models](https://drive.google.com/file/d/13Vy6ADjVWiDwFA8tuon6MI7cLiuunOfe/view?usp=share_link), 
 which are available exclusively for members of Università degli Studi di Milano-Bicocca
-- Unzip the `Floranet Models.zip` file, and paste its content into the `Models` directory
+- Unzip the `Floranet Models.zip` file, and paste its content into the `Models` directory. If the folder doesn't already exist, create it
 
 The results file (`results.csv`) generation can also be skipped. In order to to so, please follow the following steps
 
 - [Download the results.csv file](https://github.com/andreamoleri/Floranet/blob/main/Models/results.csv), which is available
 to everyone on my personal GitHub repository
-- Paste the file into the `Models` directory
+- Paste the file into the `Models` directory. If the folder doesn't already exist, create it
 ---
 
 ## Libraries Used
