@@ -169,6 +169,8 @@ across classes. The augmentation included transformations such as rotation, widt
     \caption{Distribution of Image Aspect Ratios}
 \end{figure}
 
+\vspace{0.3cm}
+
 Qualitative insights into the dataset were gained through visualizations. A bar plot [Fig.2] of class distributions highlights
 the imbalance, while a subset of images from the top five most populated classes [Fig.3] showcases intra-class variability,
 pose variations, and image quality. For instance, the Petunia class exhibits notable pose diversity, while inter-class
@@ -187,19 +189,14 @@ the complexity of the classification task, necessitating robust feature extracti
 To further understand the dataset's characteristics, the dimensions of all images were analyzed, yielding an average
 resolution of approximately \(630 \times 534\) pixels. The aspect ratio distribution centers around 1.2, with minor
 outliers. This uniformity in image dimensions simplifies preprocessing requirements but necessitates consistent
-resizing for compatibility with convolutional neural networks. Furthermore, a comparison is made between flowers
-extracted from 10 randomly selected classes, and flowers extracted from a specific class [Fig.4]. This visualization was made
-to underscore the diversity within the dataset, and to highlight the consistency of samples for a particular category at the same time.
+resizing for compatibility with convolutional neural networks. Further analysis can be found on the notebook,
+for example a comparison is made between flowers extracted from 10 randomly selected classes, and flowers extracted from
+a specific class [Fig.4]. This visualization was made to underscore the diversity within the dataset, and to highlight
+the consistency of samples for a particular category at the same time.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{Images/Sample Images from Top 5 Classes}
-    \caption{Sample Images from Top 5 Classes}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{Images/Sample Random Instances from 10 Random Classes (Top) vs Sample Random Images from a Specific Class (Bottom)}
     \caption{Sample Images from Top 5 Classes}
 \end{figure}
 
@@ -213,8 +210,7 @@ to underscore the diversity within the dataset, and to highlight the consistency
 
 The first step in the methodology involved preparing the dataset. The dataset was prepared by splitting it into
 training, validation, and test sets (70\%, 15\%, and 15\%, respectively) using a stratified method to maintain class
-balance. Despite some classes being over or underrepresented, this approach ensured proportional distribution across
-subsets, minimizing biases and improving model generalization. One-Hot Encoding was applied to the target labels to
+balance. One-Hot Encoding was applied to the target labels to
 treat each class independently, and the preprocessed data was saved in CSV files for further processing.
 
 \subsection{Model Architecture Selection}
@@ -269,16 +265,14 @@ complex patterns in images, even in limited data scenarios.
 \subsubsection*{Motivation for Model Selection}
 The decision to use VGG16, DenseNet121, and InceptionV3 was guided by their complementary strengths. VGG16 provides a
 solid baseline with its straightforward architecture, DenseNet121 offers parameter efficiency and feature reuse, and
-InceptionV3 excels in capturing multiscale features i.e., the model can analyze details at different spatial scales and
-handle the structural variety of flowers. Together, these models ensure a comprehensive approach to extracting the rich
+InceptionV3 excels in capturing multiscale features. Together, these models ensure a comprehensive approach to extracting the rich
 visual information present in the Oxford Flower Dataset, leveraging transfer learning to address the dataset's relatively
 small size effectively.
 
 \subsection{Transfer Learning}
 
-Transfer learning enables the use of pre-trained models that have already learned useful features from large, diverse
-datasets such as ImageNet. In this project, each architecture was initialized with pre-trained weights and adapted for
-the flower classification task. To prevent overfitting and improve generalization, several experiments were made for each network:
+Each architecture was initialized with weights pre-trained on ImageNet and adapted for the flower classification task.
+To better understand the role of different architectures and configurations, several experiments were made for each network:
 
 \begin{itemize}
     \item \textit{Totally Frozen (100\%) Base Model with Standard Training Data}
@@ -398,6 +392,8 @@ will be conducted using its classification report and confusion matrix [Fig.10].
     \caption{Confusion Matrix}
 \end{figure}
 
+\vspace{0.3cm}
+
 The classification report for model\_densenet3 demonstrates outstanding performance across all categories, with
 consistently high precision, recall, and F1-scores. Many classes achieve perfect scores (1.00), reflecting the model's
 exceptional capability to accurately identify most samples. Both macro and weighted averages of 0.97 underscore its
@@ -431,11 +427,7 @@ efficient and effective solution for the given task, achieving a 96.98\% test ac
 
 \bibitem{Nilsback2008} M.-E. Nilsback and A. Zisserman, ``Automated flower classification over a large number of classes,'' \textit{Proceedings of the Indian Conference on Computer Vision, Graphics and Image Processing}, pp. 722–729, 2008.
 
-\bibitem{Russakovsky2015} O. Russakovsky, J. Deng, H. Su, J. Krause, S. Satheesh, S. Ma, and A. Berg, ``ImageNet large scale visual recognition challenge,'' \textit{International Journal of Computer Vision}, vol. 115, no. 3, pp. 211–252, 2015.
-
 \bibitem{Pan2010} S. J. Pan and Q. Yang, ``A survey on transfer learning,'' \textit{IEEE Transactions on Knowledge and Data Engineering}, vol. 22, no. 10, pp. 1345–1359, 2010.
-
-\bibitem{Zhang2017} L. Zhang, H. Zhang, and W. Li, ``A survey on data augmentation for deep learning-based image classification,'' \textit{IEEE Access}, vol. 5, pp. 7852–7863, 2017.
 
 \bibitem{Krizhevsky2012} A. Krizhevsky, I. Sutskever, and G. E. Hinton, ``ImageNet classification with deep convolutional neural networks,'' in \textit{Proceedings of Advances in Neural Information Processing Systems (NeurIPS)}, pp. 1097–1105, 2012.
 
@@ -445,25 +437,4 @@ efficient and effective solution for the given task, achieving a 96.98\% test ac
 
 \end{thebibliography}
 
-
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
