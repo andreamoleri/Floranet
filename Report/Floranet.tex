@@ -95,6 +95,10 @@ Filippo Armani - 865939 - f.armani1@campus.unimib.it   \\[1cm] % Your name
 \end{titlepage}
 
 
+%----------------------------------------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------------------------------------
+
 \begin{abstract}
 This report presents Floranet, a deep learning-based approach aimed at developing models capable of correctly
 identifying flower species from images while minimizing classification errors. The investigation focused on leveraging
@@ -105,6 +109,10 @@ high test accuracy and low error propensity.
 
 \end{abstract}
 
+%----------------------------------------------------------------------------------------
+% INTRODUCTION
+%----------------------------------------------------------------------------------------
+
 \section{Introduction}
 The classification of images has become a cornerstone task in the field of machine learning and deep learning due to
 its wide range of applications, from medical diagnostics to automated systems in agriculture. This project, titled
@@ -112,6 +120,8 @@ Floranet, focuses on the classification of flower species using the \href{https:
 a dataset curated by Maria-Elena Nilsback and Andrew Zisserman. The dataset comprises 102 flower species, with the
 number of images per species ranging from 40 to 258. These images present significant challenges due to variations in
 scale, pose, lighting conditions, and intra-class diversity, as well as inter-class similarity.
+
+\vspace{0.3cm}
 
 The problem addressed by this project is the accurate classification of flower images into their respective species,
 a task that requires robust models capable of handling the inherent complexity of the dataset. To tackle this problem,
@@ -121,16 +131,18 @@ strengths and limitations of each one, offering insights into the performance of
 to complex classification tasks. The subsequent sections will delve into the detailed methodology, experimental
 results, and an analysis of the findings.
 
+%----------------------------------------------------------------------------------------
+% DATASETS
+%----------------------------------------------------------------------------------------
+
 \section{Datasets}
 The dataset used in this project is the \href{https://www.robots.ox.ac.uk/~vgg/data/flowers/102/index.html}{Oxford Flower Dataset},
 introduced in 2008 by Maria-Elena Nilsback and Andrew Zisserman. This dataset is designed for image classification tasks
 and consists of 102 categories of flowers commonly found in the United Kingdom. The dataset includes three primary components:
+image files (high-resolution flower images across all 102 categories), segmentation masks (masks that define flower regions
+in the images), and labels (class labels for each image, provided in MATLAB format).
 
-\begin{itemize}
- \item \textbf{Image Files} (`102flowers.tgz`): high-resolution flower images across all 102 categories.
- \item \textbf{Segmentation Masks} (`102segmentations.tgz`): optional masks that define flower regions in the images (not utilized in this study).
- \item \textbf{Labels} (`imagelabels.mat`): class labels for each image, provided in MATLAB format.
-\end{itemize}
+\vspace{0.3cm}
 
 To prepare the dataset, the required files were downloaded, decompressed, and organized into meaningful directories.
 A Python script was implemented to automatically handle this process, ensuring that any missing files were downloaded
@@ -142,6 +154,8 @@ necessary for training machine learning models, it aids in exploratory data anal
 correctly understood and annotated. The dataset's original benchmark, as described in its publication, utilized
 hand-crafted features for classification. This project, however, leverages CNN-based approaches, exploring the
 advantages of transfer learning with pre-trained deep learning architectures.
+
+\vspace{0.3cm}
 
 The dataset poses significant challenges due to its inherent imbalance: the most populated class contains 258 images
 (Petunia), while the least populated class includes only 40 images (e.g., Pink Primrose). A quantitative analysis
@@ -155,7 +169,6 @@ across classes. The augmentation included transformations such as rotation, widt
     \caption{Distribution of Image Aspect Ratios}
 \end{figure}
 
-
 Qualitative insights into the dataset were gained through visualizations. A bar plot [Fig.2] of class distributions highlights
 the imbalance, while a subset of images from the top five most populated classes [Fig.3] showcases intra-class variability,
 pose variations, and image quality. For instance, the Petunia class exhibits notable pose diversity, while inter-class
@@ -163,19 +176,13 @@ similarity is observed between Wallflower and Watercress. Additionally, intra-cl
 Lily class, where samples within the same category differ significantly in appearance. Such variability may increase
 the complexity of the classification task, necessitating robust feature extraction techniques.
 
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{Images/Distribution of Images per Class}
     \caption{Distribution of Images per Class}
 \end{figure}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{Images/Sample Images from Top 5 Classes}
-    \caption{Sample Images from Top 5 Classes}
-\end{figure}
-
+\vspace{0.3cm}
 
 To further understand the dataset's characteristics, the dimensions of all images were analyzed, yielding an average
 resolution of approximately \(630 \times 534\) pixels. The aspect ratio distribution centers around 1.2, with minor
@@ -186,37 +193,228 @@ to underscore the diversity within the dataset, and to highlight the consistency
 
 \begin{figure}[h!]
     \centering
+    \includegraphics[width=\linewidth]{Images/Sample Images from Top 5 Classes}
+    \caption{Sample Images from Top 5 Classes}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
     \includegraphics[width=\linewidth]{Images/Sample Random Instances from 10 Random Classes (Top) vs Sample Random Images from a Specific Class (Bottom)}
     \caption{Sample Images from Top 5 Classes}
 \end{figure}
 
+%----------------------------------------------------------------------------------------
+% THE METHODOLOGICAL APPROACH
+%----------------------------------------------------------------------------------------
 
 \section{The Methodological Approach}
 
-This is the central and most important section of the report. Its objective must be to show, with linearity and clarity, the steps that have led to the definition of a decision model. The description of the working hypotheses, confirmed or denied, can be found in this section together with the description of the subsequent refining processes of the models. Comparisons between different models (e.g. heuristics vs. optimal models) in terms of quality of solutions, their explainability and execution times are welcome. 
+\subsection{Data Preprocessing}
 
-Do not attempt to describe all the code in the system, and do not include large pieces of code in this section, use pseudo-code where necessary. Complete source code should be provided separately (in Appendixes, as separated material or as a link to an on-line repo). Instead pick out and describe just the pieces of code which, for example:
+The first step in the methodology involved preparing the dataset. The dataset was prepared by splitting it into
+training, validation, and test sets (70%, 15%, and 15%, respectively) using a stratified method to maintain class
+balance. Despite some classes being over or underrepresented, this approach ensured proportional distribution across
+subsets, minimizing biases and improving model generalization. One-Hot Encoding was applied to the target labels to
+treat each class independently, and the preprocessed data was saved in CSV files for further processing.
+
+\subsection{Model Architecture Selection}
+
+For the classification task, three advanced convolutional neural network architectures were employed: VGG16,
+DenseNet121, and InceptionV3. These models were selected due to their proven performance in image
+classification tasks and their compatibility with transfer learning. Below, we elaborate on the key features and design
+principles of each architecture, along with the motivations for their use in the context of the Oxford Flower Dataset.
+
+\subsubsection*{VGG16}
+VGG16, introduced by Simonyan and Zisserman, is characterized by its simplicity and depth. The architecture [Fig.5] employs a
+sequence of small $3 \times 3$ convolutional filters, stacked in increasing depth, followed by max-pooling layers for
+spatial dimensionality reduction. This design allows the model to capture complex hierarchical features while
+maintaining manageable computational complexity. VGG16's consistent layer structure and relatively shallow gradient
+paths make it a robust choice for transfer learning.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/VGG16}
+    \caption{VGG16 Architecture}
+\end{figure}
+
+\subsubsection*{InceptionV3}
+InceptionV3, a refined version of the Inception architecture introduced by researchers at Google, presents factorized
+convolutions, batch normalization, and auxiliary classifiers to improve both training efficiency and accuracy.
+The architecture [Fig.6] employs inception modules, which capture multiscale spatial features by performing convolutions of
+varying kernel sizes in parallel. This multi-scale approach is ideal for the Oxford Flower Dataset, as flowers exhibit
+diverse shapes and sizes. InceptionV3's ability to efficiently process such diversity while maintaining high
+classification accuracy makes it a powerful choice for this task.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/InceptionV3}
+    \caption{InceptionV3 Architecture}
+\end{figure}
+
+\subsubsection*{DenseNet121}
+DenseNet121 leverages dense connectivity patterns where each layer is connected to every other layer within a block.
+This connectivity encourages feature reuse, significantly reducing the number of parameters compared to traditional
+architectures while improving gradient flow during training. The compactness and efficiency of the DenseNet121
+architecture [Fig.7] make it particularly suitable for the classification task at hand, as the model can effectively learn
+complex patterns in images, even in limited data scenarios.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/Densenet121}
+    \caption{DenseNet121 Architecture}
+\end{figure}
+
+\vspace{0.3cm}
+
+\subsubsection*{Motivation for Model Selection}
+The decision to use VGG16, DenseNet121, and InceptionV3 was guided by their complementary strengths. VGG16 provides a
+solid baseline with its straightforward architecture, DenseNet121 offers parameter efficiency and feature reuse, and
+InceptionV3 excels in capturing multiscale features i.e., the model can analyze details at different spatial scales and
+handle the structural variety of flowers. Together, these models ensure a comprehensive approach to extracting the rich
+visual information present in the Oxford Flower Dataset, leveraging transfer learning to address the dataset's relatively
+small size effectively.
+
+\subsection{Transfer Learning}
+
+Transfer learning enables the use of pre-trained models that have already learned useful features from large, diverse
+datasets such as ImageNet. In this project, each architecture was initialized with pre-trained weights and adapted for
+the flower classification task. To prevent overfitting and improve generalization, several experiments were made for each network:
+
 \begin{itemize}
-\item are especially critical to the operation of the system;
-\item you feel might be of particular interest to the reader for some reason;
-\item  illustrate a non-standard or innovative way of implementing an algorithm, data
-structure, etc..
+    \item \textbf{Totally Frozen Base Model with Standard Training Data}: in this configuration, all layers are frozen, and the model is trained using the standard training data generator (`train\_generator`).
+    \item \textbf{Totally Frozen Base Model with Augmented Training Data}: this configuration is similar to the first, but it uses data augmentation by employing the `train\_generator\_aug` data generator, which should help enhance generalization.
+    \item \textbf{Partially Frozen Base Model with Standard Training Data}: in this case, `70\%` of the layers are frozen instead of `100\%`. The model is then trained with the standard training data generator.
+    \item \textbf{Partially Frozen Base Model with Augmented Training Data}: this configuration mirrors the third, with `70\%` of the layers frozen, but it incorporates data augmentation during training
 \end{itemize}
 
-You should also mention any unforeseen problems you encountered when implementing the
-system and how and to what extent you overcame them. Common problems are:
- difficulties involving existing software.
+Furthermore, dropout layers were added after the dense layers to further mitigate overfitting and improve model
+robustness. Each model was compiled using the Adam optimizer, with categorical cross-entropy as the loss function and
+accuracy as the evaluation metric. The final classification was made using a softmax function.
 
+%----------------------------------------------------------------------------------------
+% RESULTS AND EVALUATION
+%----------------------------------------------------------------------------------------
 
 \section{Results and Evaluation}
-The Results section is dedicated to presenting the actual results (i.e. measured and calculated quantities), not to discussing their meaning or interpretation. The results should be summarized using appropriate Tables and Figures (graphs or schematics). Every Figure and Table should have a legend that describes concisely what is contained or shown. Figure legends go below the figure, table legends above the table. Throughout the report, but especially in this section, pay attention to reporting numbers with an appropriate number of significant figures. 
+
+After defining the experimental setups, it is possible to analyze the results using different diagnostic tools.
+Among these we have two graphs [Fig.8] that show, on the left, the model metrics without validation curves, and on
+the right, the model metrics with validation curves. We then have a table [Fig.9] that collects the salient values
+of the experiments conducted, for example their duration, the values ​​of training accuracy, training loss,
+validation accuracy, validation loss, test accuracy, test loss and the predictions made on the test set.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{/Users/andreamoleri/PycharmProjects/Floranet/Images/combined_metrics.png}
+    \caption{Training Metrics}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/Report}
+    \caption{Experiments Report}
+\end{figure}
+
+\subsection{VGG16}
+
+\begin{itemize}
+    \item \textbf{Training Loss and Accuracy}:
+    When comparing configurations with a `100\%` freeze percentage versus `70\%`, the models with `70\%` freeze performed better. These models showed a notable improvement in both loss and accuracy. The impact of data augmentation was marginal, showing no significant effect on the curves.
+
+    \item \textbf{Validation Loss and Accuracy}:
+    Including the validation metrics revealed that the `100\%` freeze configurations showed signs of underfitting, particularly in models with augmented data. In contrast, the models with `70\%` freeze exhibited stronger validation performance, with training and validation losses aligning more closely.
+\end{itemize}
+
+\subsection{InceptionV3}
+
+\begin{itemize}
+    \item \textbf{Training Loss and Accuracy}:
+    Similar to VGG16, the `70\%` freeze models displayed superior performance, showing improvements in training loss and accuracy when compared to the `100\%` freeze models. Data augmentation provided slight improvements in training performance, but the effect was not substantial.
+
+    \item \textbf{Validation Loss and Accuracy}:
+    The underfitting observed with `100\%` freeze models was more pronounced. Data augmentation helped reduce this issue, although the validation accuracy still did not surpass the performance of the `70\%` freeze models.
+\end{itemize}
+
+\subsection{DenseNet121}
+
+\begin{itemize}
+    \item \textbf{Training Loss and Accuracy}:
+    DenseNet121 outperformed the other models, showing the best results in terms of accuracy and loss, particularly with `70\%` freeze. The training loss and accuracy showed notable improvement compared to the `100\%` freeze models. As with the other models, the impact of data augmentation was minimal.
+
+    \item \textbf{Validation Loss and Accuracy}:
+    DenseNet121 with `70\%` freeze displayed the best validation performance across all models, achieving an accuracy of approximately `96.98\%` during the test phase, which set it apart from the other architectures.
+\end{itemize}
+
+\subsection{General Observations}
+
+The general trend observed across all models is that the `70\%` freeze configuration consistently outperformed the
+`100\%` freeze models. While data augmentation had a slight positive effect on generalization, its impact was marginal in certain configurations.
 
 \section{Discussion}
 The discussion section aims at interpreting the results in light of the project's objectives. The most important goal of this section is to interpret the results so that the reader is informed of the insight or answers that the results provide. This section should also present an evaluation of the particular approach taken by the group. For example: Based on the results, how could the experimental procedure be improved? What additional, future work may be warranted? What recommendations can be drawn?
 
+The results provide several important insights and highlight potential areas for improvement:
 
-\section{Conclusions}
-Conclusions should summarize the central points made in the Discussion section, reinforcing for the reader the value and implications of the work. If the results were not definitive, specific future work that may be needed can be (briefly) described. The conclusions should never contain ``surprises''. Therefore, any conclusions should be based on observations and data already discussed. It is considered extremely bad form to introduce new data in the conclusions.
+\subsubsection{1. Effect of Freeze Percentage}
+
+The `70\%` freeze configuration consistently produced the best results across all models, indicating that a higher degree of fine-tuning is beneficial. This outcome aligns with our expectations, as allowing some flexibility in the model layers facilitates better adaptation to the task. The observed improvement in both training and validation phases when using the `70\%` freeze configuration supports the idea that restricting the model's ability to learn new features can hinder its performance. In contrast, the `100\%` freeze configuration led to underfitting and poor validation accuracy due to the model's inability to adapt.
+
+\subsubsection{2. Impact of Data Augmentation}
+
+Data augmentation showed a slight improvement in generalization for some models, particularly InceptionV3, where overfitting was reduced. However, the overall impact on performance, especially for DenseNet121, was relatively small. This suggests that while augmentation can be beneficial in certain scenarios, it may not always lead to substantial improvements in performance, particularly for robust architectures like DenseNet121. Additionally, the time cost of implementing data augmentation should be carefully considered, especially when its impact is marginal.
+
+\subsubsection{3. Model Architecture}
+
+DenseNet121 emerged as the best-performing architecture in terms of both accuracy and computational efficiency. This model achieved the highest validation accuracy, with an impressive test accuracy of `96.98\%`. DenseNet's success can likely be attributed to its ability to handle complex features through its densely connected layers. The limited impact of data augmentation on DenseNet121 further underscores its robustness and suggests that it may require fewer modifications to generalize effectively.
+
+\subsubsection{4. Training Time Considerations}
+
+A crucial consideration for future work is the trade-off between accuracy and training time. Models utilizing data augmentation required significantly more training time (approximately `50 minutes`) compared to those without it (around `15-20 minutes`). In some cases, especially with DenseNet121, the additional training time did not result in substantial accuracy improvements. Future experiments should carefully weigh the benefits of augmentation against the time cost, particularly when the improvement in performance is marginal.
+
+\subsubsection{5. Future Work and Improvements}
+
+Based on the findings, the following directions for future work and improvements are suggested:
+
+\begin{itemize}
+    \item \textbf{Alternative Data Augmentation Strategies:} Experimenting with other data augmentation techniques or regularization methods may yield more significant improvements in generalization, especially for models like DenseNet121.
+    \item \textbf{Exploring Other Model Architectures:} Future experiments could evaluate other architectures, such as ResNet or EfficientNet, to assess their performance in terms of accuracy and computational cost.
+    \item \textbf{Hyperparameter Optimization:} Further optimization of hyperparameters, including learning rates and batch sizes, could lead to further refinements and improvements in model performance.
+\end{itemize}
+
+\subsection{Conclusion}
+
+In conclusion, based on the current set of experiments, \texttt{model\_densenet3}, which uses `70\%` freeze without data augmentation, is the most balanced model in terms of performance, training time, and generalization. This model is recommended for the flower classification task, although future work should focus on optimizing and testing additional architectures to further improve upon these results.
+
+\subsection{Summary of Key Findings}
+
+In this study, we analyzed the performance of three deep learning models—VGG16, InceptionV3, and DenseNet121—under various experimental configurations. The primary focus was to evaluate the impact of different freeze percentages and data augmentation strategies on model performance, particularly in terms of generalization and computational efficiency.
+
+The results of our experiments confirmed the following key points:
+
+\begin{itemize}
+    \item The `70\%` freeze configuration consistently outperformed the `100\%` freeze configuration across all models, leading to better validation and test accuracies. This suggests that allowing some fine-tuning of pre-trained layers significantly enhances the models' ability to adapt to the task at hand.
+    \item Data augmentation, while beneficial in some cases, had a relatively minor effect on overall performance. In particular, DenseNet121 did not experience substantial improvements with augmentation compared to non-augmented configurations. The impact of data augmentation on generalization was most notable with InceptionV3, where it helped reduce overfitting, but the performance gain was not always large enough to justify the additional training time.
+    \item DenseNet121 with the `70\%` freeze percentage emerged as the best-performing model, achieving the highest validation and test accuracies. This model also offered the best balance between computational efficiency and accuracy, as its performance remained robust even without data augmentation, thus saving valuable training time.
+\end{itemize}
+
+\subsection{Conclusion and Future Directions}
+
+Based on these findings, we conclude that the optimal model for the classification task is \texttt{model\_densenet3}, which employs `70\%` freeze without data augmentation. This model strikes the best balance between high performance and reasonable training time.
+
+While the current results are promising, future work could explore:
+\begin{itemize}
+    \item Testing other model architectures, such as ResNet or EfficientNet, to assess their performance and computational efficiency.
+    \item Investigating alternative data augmentation strategies that may yield greater improvements in generalization.
+    \item Conducting hyperparameter optimization (e.g., learning rates, batch sizes) to further refine model performance.
+\end{itemize}
+
+Overall, based on the results obtained, \texttt{model\_densenet3} represents the best compromise for the task at hand and is recommended for future use.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/Confusion Matrix}
+    \caption{Confusion Matrix}
+\end{figure}
 
 \section*{References}
 
@@ -226,3 +424,23 @@ The references section should contain complete citations following standard form
 \bibliography{references.bib}
 
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
