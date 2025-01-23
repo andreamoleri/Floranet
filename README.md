@@ -3,7 +3,8 @@
 
 Floranet is a deep learning notebook focused on classifying flowers from the Oxford Flower Dataset. By leveraging 
 transfer learning with VGG16, DenseNet121, and InceptionV3, Floranet explores techniques like layer freezing and data 
-augmentation to achieve high classification accuracy with minimal error. 
+augmentation to achieve high classification accuracy with minimal error. In this `README.md` file you will find quick
+instructions on how to run the notebook correctly in your local development environment.
 
 ---
 
@@ -11,11 +12,10 @@ augmentation to achieve high classification accuracy with minimal error.
 
 1. [Prerequisites](#prerequisites)
 2. [Dataset Download and Preparation](#dataset-download-and-preparation)
-3. [Code Execution Guide](#code-execution-guide)
-4. [Skip Training Option](#skip-training-option)
+3. [Code Execution Guide](#code-execution)
+4. [Skip Training Option](#skip-options)
 5. [Libraries Used](#libraries-used)
 6. [File Structure](#file-structure)
-7. [Results](#results)
 
 ---
 
@@ -30,8 +30,8 @@ Make sure to install the required libraries before running the code. You can ins
 pip install -r requirements.txt
 ```
 
-> **Note:** the best way to access this code is to set up a Colab environment. If you choose this option, all the 
-necessary dependencies will already be installed.
+> **Recommendation:** For an optimal experience, we recommend using a Google Colab environment. 
+> When utilizing Colab, all required dependencies will already be pre-installed
 
 ---
 
@@ -41,12 +41,12 @@ The dataset used in this project consists of images of flowers and their corresp
 downloads and preprocesses the dataset. No manual intervention is required. A deep dive on how the code handles the
 process is as follows:
 
-1. Download the dataset and related files:
+1. The following resources are retrieved:
     - [Flower Images](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/102flowers.tgz)
     - [Segmented Images](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/102segmentations.tgz)
     - [Image Labels](https://www.robots.ox.ac.uk/~vgg/data/flowers/102/imagelabels.mat)
 
-2. The data is extracted into the `Data` folder:
+2. The resources are extracted into the `Data` folder:
     - Images are stored in `Data/images`
     - Segmented images are stored in `Data/segmented_images`
     - Labels are processed and saved in `Data/train_set.csv`, `Data/valid_set.csv`, and `Data/test_set.csv`
@@ -64,16 +64,18 @@ process is as follows:
 
 ## Skip Options
 
-If you want to skip the training process and directly use pre-trained models:
-- [Download the pre-trained models](https://drive.google.com/file/d/13Vy6ADjVWiDwFA8tuon6MI7cLiuunOfe/view?usp=share_link), 
-which are available exclusively for members of Università degli Studi di Milano-Bicocca
-- Unzip the `Floranet Models.zip` file, and paste its content into the `Models` directory. If the folder doesn't already exist, create it
+If you want to skip the (long) training process and directly use pre-trained models:
+1. [Download the pre-trained models](https://drive.google.com/file/d/13Vy6ADjVWiDwFA8tuon6MI7cLiuunOfe/view?usp=share_link), 
+which are available exclusively for members of Università degli Studi di Milano-Bicocca.
+2. Unzip the `Floranet Models.zip` file, and paste its content into the `Models` directory. If the folder doesn't already exist, create it.
+The directory structure should align with the example provided in the [File Structure](#file-structure) section.
 
-The results file (`results.csv`) generation can also be skipped. In order to to so, please follow the following steps
+Additionally, you may skip the generation of the results.csv file by completing the following steps:
 
 - [Download the results.csv file](https://github.com/andreamoleri/Floranet/blob/main/Models/results.csv), which is available
-to everyone on my personal GitHub repository
-- Paste the file into the `Models` directory. If the folder doesn't already exist, create it
+to everyone on my personal GitHub repository.
+- Paste the file into the `Models` directory. If the folder doesn't already exist, create it.
+The directory structure should align with the example provided in the [File Structure](#file-structure) section.
 ---
 
 ## Libraries Used
@@ -137,25 +139,6 @@ Project Directory
 |-- requirements.txt           # List of required libraries
 |-- README.md                  # The file you're reading right now
 ```
-
----
-
-## Results
-
-Evaluation results are summarized in `Models/results.csv`. Key metrics include:
-
-- Training, validation, and test accuracies
-- Classification reports with precision, recall, and F1-scores
-- Training durations for each model
-
-Example of a results summary:
-
-| Model Name       | Duration | Train Accuracy | Train Loss | Val Accuracy | Val Loss | Test Accuracy | Test Loss | Predictions             | 
-|------------------|----------|----------------|------------|--------------|----------|---------------|-----------|-------------------------|
-| model_densenet3  | 0:16:11  | 0.996685       | 0.087682   | 0.965798     | 0.219276 | 0.969894      | 0.221566  | [52 46  4 ... 15 37 78] |
-| model_inception4 | 0:45:28  | 1.000000       | 0.049704   | 0.942997     | 0.301577 | 0.941416      | 0.282513  | [52 46  4 ... 15 37 78] |
-
-For more details, refer to the `results.csv` file.
 
 ---
 
