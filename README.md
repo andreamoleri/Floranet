@@ -30,7 +30,7 @@ Make sure to install the required libraries before running the code. You can ins
 pip install -r requirements.txt
 ```
 
-**Note:** the best way to access this code is to set up a Colab environment. If you choose this option, all the 
+> **Note:** the best way to access this code is to set up a Colab environment. If you choose this option, all the 
 necessary dependencies will already be installed.
 
 ---
@@ -91,6 +91,7 @@ The project relies on the following main libraries:
 - **Pillow** | 11.0.0
 - **Scikit-learn** | 1.5.2
 - **iPython** | 8.15.0
+- **Protobuf** | 4.23.4
 
 > **Note:** The code has been tested with these library versions. Compatibility with other versions is not guaranteed.
 
@@ -111,6 +112,8 @@ Project Directory
 |
 |-- Export/                    # Contains KeyNote presentations
 |
+|-- Images/                    # Contains images used by the LaTeX report
+|
 |-- Models/                    # Contains models and reports
 |   |-- model_densenet1/       # Contains 1st DenseNet experiment
 |   |-- model_densenet2/       # Contains 2nd DenseNet experiment
@@ -127,7 +130,6 @@ Project Directory
 |   |-- results.csv            # Contains experiment results dataframe
 |
 |-- Report/
-|   |-- Images/                # Contains images used by the LaTeX report
 |   |-- Floranet.tex           # LaTeX Report of the project
 |   |-- Floranet.pdf           # PDF Report of the project
 |

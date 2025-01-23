@@ -9,3 +9,4 @@ scipy==1.11.1
 pillow==11.0.0
 scikit-learn==1.5.2
 ipython==8.15.0
+protobuf==4.23.4
