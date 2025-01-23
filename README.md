@@ -1,4 +1,4 @@
-# 🌸 Floranet
+# Floranet
 
 
 Floranet is a deep learning notebook focused on classifying flowers from the Oxford Flower Dataset. By leveraging 
