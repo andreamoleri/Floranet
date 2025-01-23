@@ -148,7 +148,11 @@ To prepare the dataset, the required files were downloaded, decompressed, and or
 A Python script was implemented to automatically handle this process, ensuring that any missing files were downloaded
 and verified. Class labels were extracted from the MATLAB file (`imagelabels.mat`) and adjusted for Python’s zero-based
 indexing. To facilitate analysis, a mapping between class indices and their corresponding flower names was created using
-the official dataset documentation. The image files were matched to their labels and organized into a structured Pandas
+the official dataset documentation.
+
+\vspace{0.3cm}
+
+The image files were matched to their labels and organized into a structured Pandas
 DataFrame, where each row contains the image file name and the associated flower name. While this step is not strictly
 necessary for training machine learning models, it aids in exploratory data analysis and ensures that the dataset is
 correctly understood and annotated. The dataset's original benchmark, as described in its publication, utilized
@@ -191,7 +195,7 @@ resolution of approximately \(630 \times 534\) pixels. The aspect ratio distribu
 outliers. This uniformity in image dimensions simplifies preprocessing requirements but necessitates consistent
 resizing for compatibility with convolutional neural networks. Further analysis can be found on the notebook,
 for example a comparison is made between flowers extracted from 10 randomly selected classes, and flowers extracted from
-a specific class [Fig.4]. This visualization was made to underscore the diversity within the dataset, and to highlight
+a specific class. This visualization was made to underscore the diversity within the dataset, and to highlight
 the consistency of samples for a particular category at the same time.
 
 \begin{figure}[h!]
@@ -221,7 +225,7 @@ classification tasks and their compatibility with transfer learning. Below, we e
 principles of each architecture, along with the motivations for their use in the context of the Oxford Flower Dataset.
 
 \subsubsection*{VGG16}
-VGG16, introduced by Simonyan and Zisserman, is characterized by its simplicity and depth. The architecture [Fig.5] employs a
+VGG16, introduced by Simonyan and Zisserman, is characterized by its simplicity and depth. The architecture [Fig.4] employs a
 sequence of small $3 \times 3$ convolutional filters, stacked in increasing depth, followed by max-pooling layers for
 spatial dimensionality reduction. This design allows the model to capture complex hierarchical features while
 maintaining manageable computational complexity. VGG16's consistent layer structure and relatively shallow gradient
@@ -229,21 +233,20 @@ paths make it a robust choice for transfer learning.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{Images/VGG16}
+    \includegraphics[width=.75\linewidth]{Images/VGG16}
     \caption{VGG16 Architecture}
 \end{figure}
 
 \subsubsection*{InceptionV3}
 InceptionV3, a refined version of the Inception architecture introduced by researchers at Google, presents factorized
 convolutions, batch normalization, and auxiliary classifiers to improve both training efficiency and accuracy.
-The architecture [Fig.6] employs inception modules, which capture multiscale spatial features by performing convolutions of
+The architecture [Fig.5] employs inception modules, which capture multiscale spatial features by performing convolutions of
 varying kernel sizes in parallel. This multi-scale approach is ideal for the Oxford Flower Dataset, as flowers exhibit
-diverse shapes and sizes. InceptionV3's ability to efficiently process such diversity while maintaining high
-classification accuracy makes it a powerful choice for this task.
+diverse shapes and sizes.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{Images/InceptionV3}
+    \includegraphics[width=.75\linewidth]{Images/InceptionV3}
     \caption{InceptionV3 Architecture}
 \end{figure}
 
@@ -251,12 +254,12 @@ classification accuracy makes it a powerful choice for this task.
 DenseNet121 leverages dense connectivity patterns where each layer is connected to every other layer within a block.
 This connectivity encourages feature reuse, significantly reducing the number of parameters compared to traditional
 architectures while improving gradient flow during training. The compactness and efficiency of the DenseNet121
-architecture [Fig.7] make it particularly suitable for the classification task at hand, as the model can effectively learn
+architecture [Fig.6] make it particularly suitable for the classification task at hand, as the model can effectively learn
 complex patterns in images, even in limited data scenarios.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{Images/Densenet121}
+    \includegraphics[width=.75\linewidth]{Images/Densenet121}
     \caption{DenseNet121 Architecture}
 \end{figure}
 
@@ -292,21 +295,14 @@ accuracy as the evaluation metric. The final classification was made using a sof
 \section{Results and Evaluation}
 
 After defining the experimental setups, it is possible to analyze the results using different diagnostic tools.
-Among these we have two graphs [Fig.8] that show, on the left, the model metrics without validation curves, and on
-the right, the model metrics with validation curves. We then have a table [Fig.9] that collects the salient values
-of the experiments conducted, for example their duration, the values ​​of training accuracy, training loss,
-validation accuracy, validation loss, test accuracy, test loss and the predictions made on the test set.
+Among these we have two graphs [Fig.7] that show, on the left, the model metrics without validation curves, and on
+the right, the model metrics with validation curves. We then have a table [Fig.8] that collects the most important values
+of the experiments conducted, for example their duration, the values of training accuracy, test loss and other useful metrics.
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=\linewidth]{/Users/andreamoleri/PycharmProjects/Floranet/Images/combined_metrics.png}
     \caption{Training Metrics}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=\linewidth]{Images/Report}
-    \caption{Experiments Report}
 \end{figure}
 
 \subsection{Evaluating the Training Metrics}
@@ -329,21 +325,13 @@ models. The impact of data augmentation remained minor.
 
 \subsection{Evaluating the Experiments Report}
 
-The report that collects information on experiments shows additional information compared to the graphs. First of all,
-let's recall that models ending in \("2"\) or \("4"\) use augmented data, while models ending in \("1"\) or \("3"\) employ non-augmented
-data. Additionally, we remember that the "freeze\_percentage" value indicates the proportion of pre-trained layers
-frozen during training, with models ending in \("3"\) and \("4"\) freezing 70\% of the layers, while models ending in \("1"\)
-and \("2"\) freeze all pre-trained layers.
-
-\vspace{0.3cm}
-
-The experiments exhibit a high range of training accuracies, from as low as 45\% (model\_vgg2) to a perfect 99-100\%
+The report that collects information on experiments shows additional information compared to the graphs. The experiments
+exhibit a high range of training accuracies, from as low as 45\% (model\_vgg2) to a perfect 99-100\%
 (model\_vgg4, model\_densenet3, model\_densenet4, and so on). However, the high training accuracies observed must be
-interpreted with caution, as they may indicate overfitting, particularly when paired with relatively lower validation/test
-accuracies. In this regard, test accuracy is a key indicator of a model's ability to generalize to unseen data. We note
-that the models with the higher freeze percentage show relatively lower test accuracies, indicating that these models
-may not generalize well. Models that instead use a 70\% freeze percentage exhibit better generalization with test
-accuracies nearing or above 90\%. In particular, model\_densenet3 demonstrate a remarkable test accuracy of 96.98\%.
+interpreted with caution, as they may indicate overfitting. In this regard, we note that the models with the higher
+freeze percentage show relatively lower test accuracies, indicating that these models may not generalize well. Models
+that instead use a 70\% freeze percentage exhibit better generalization with test accuracies nearing or above 90\%. In
+particular, model\_densenet3 demonstrate a remarkable test accuracy of 96.98\%.
 
 \vspace{0.3cm}
 
@@ -351,12 +339,18 @@ The models with data augmentation tend to show slightly improved test performanc
 counterparts. The augmentation process helps prevent overfitting by introducing variation in the data, which may
 explain the superior test accuracies. This, however, comes at a cost: experiments without data augmentation take
 around 15-20 minutes to train (using Google Colab's T4 GPU Hardware Accelerator), while experiments with data
-augmentation take around 0 minutes to train.
+augmentation take around 50 minutes to train.
 From the analysis of the dataframe, we can also gather further insights. For example, loss values also provide insight
 into model behavior. High training loss values paired with high test loss, such as in model\_vgg1, model\_vgg2, and
 model\_inception1, suggest that these models struggle to fit the data properly. On the other hand, models like
 model\_densenet3, model\_densenet4, model\_inception3, and model\_inception` exhibit lower loss values,
 which align with their higher generalization abilities.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{Images/Report}
+    \caption{Experiments Report}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 % DISCUSSION
@@ -367,43 +361,39 @@ which align with their higher generalization abilities.
 The conducted evaluations consistently demonstrate that the `70\%` freeze configuration outperforms other settings across all models.
 In contrast, the `100\%` freeze configuration leads to underfitting, as the lack of flexibility inhibits the learning
 of new features, resulting in suboptimal validation accuracy. These findings emphasize the importance of enabling
-partial adaptability in the model layers for improved performance.
-
-\vspace{0.3cm}
-
-Data augmentation provided modest benefits, particularly for InceptionV3, where it reduced overfitting and enhanced
-generalization. However, its overall impact on performance, notably in DenseNet121, was limited, indicating that robust
-architectures might derive less benefit from such techniques for the task at hand. Given the increased training time
-associated with augmentation, its application should be evaluated when the improvements in performance are marginal.
-Models trained with data augmentation required significantly more time (up to 50 minutes) compared to those
-without it (15-20 minutes).
+partial adaptability in the model layers for improved performance. Data augmentation provided modest benefits, particularly
+for InceptionV3, where it reduced overfitting and enhanced generalization. However, its overall impact on performance,
+notably in DenseNet121, was limited, indicating that robust architectures might derive less benefit from such techniques
+for the task at hand. Given the increased training time associated with augmentation, its application should be evaluated
+when the improvements in performance are marginal.
 
 \vspace{0.3cm}
 
 DenseNet121 (with no data augmentation and 70\% freezing) emerges as the most effective architecture, achieving the
 highest validation accuracy and a test accuracy of 96.98\%. The additional time needed for including data augmentation
-in the training process (0:16:11 vs 0:52:16), in DenseNet, did not correspond to substantial accuracy gains, suggesting that augmentation's utility should
-be weighed against its computational cost. To further confirm our hypotheses, a deeper analysis of model\_densenet3
-will be conducted using its classification report and confusion matrix [Fig.10].
+in the training process (0:16:11 vs 0:52:16), in DenseNet, did not correspond to substantial accuracy gains, suggesting
+that augmentation's utility should be weighed against its computational cost. To further confirm our hypotheses, a deeper
+analysis of model\_densenet3 will be conducted using its classification report and compressed confusion matrix [Fig.9].
+The compressed version of the confusion matrix only reports the rows and columns that yielded classification errors, to
+allow for greater readability. Please note that the uncompressed matrix can be found on the Jupyter Notebook.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=\linewidth]{Images/Confusion Matrix}
-    \caption{Confusion Matrix}
+    \includegraphics[width=.75\linewidth]{/Users/andreamoleri/PycharmProjects/Floranet/Images/compressed_confusion_matrix.png}
+    \caption{Compressed Confusion Matrix}
 \end{figure}
 
 \vspace{0.3cm}
 
 The classification report for model\_densenet3 demonstrates outstanding performance across all categories, with
 consistently high precision, recall, and F1-scores. Many classes achieve perfect scores (1.00), reflecting the model's
-exceptional capability to accurately identify most samples. Both macro and weighted averages of 0.97 underscore its
-balanced performance across all classes, avoiding significant bias. The model excels particularly with smaller classes,
-where precision and recall are nearly flawless. Although minor variations exist, such as class 2 having a recall of 0.67
-but maintaining an F1-score of 0.80, these do not detract from the model's overall robustness and versatility.
-The confusion matrix further corroborates these findings, highlighting a dominant diagonal line indicative of high
+capability to accurately identify most samples. Both macro and weighted averages of 0.97 underscore its balanced
+performance across all classes. The model excels particularly with smaller classes, where precision and recall are
+nearly flawless. Although minor fluctuations exist, such as class 2 having a recall of 0.67 but maintaining an F1-score of
+0.80, these do not detract from the model's overall robustness and versatility.
+The compressed confusion matrix further corroborates these findings, highlighting a dominant diagonal line indicative of high
 accuracy across the majority of classes. Sparse off-diagonal elements and the light intensity of the few misclassifications
-suggest errors are minimal and isolated rather than systematic. The absence of significant error clusters confirms that
-the model has effectively learned discriminative features without displaying bias toward any particular category.
+suggest errors are minimal and isolated rather than systematic.
 
 %----------------------------------------------------------------------------------------
 % CONCLUSION
@@ -425,13 +415,9 @@ efficient and effective solution for the given task, achieving a 96.98\% test ac
 
 \begin{thebibliography}{99}
 
-\bibitem{Nilsback2008} M.-E. Nilsback and A. Zisserman, ``Automated flower classification over a large number of classes,'' \textit{Proceedings of the Indian Conference on Computer Vision, Graphics and Image Processing}, pp. 722–729, 2008.
-
 \bibitem{Pan2010} S. J. Pan and Q. Yang, ``A survey on transfer learning,'' \textit{IEEE Transactions on Knowledge and Data Engineering}, vol. 22, no. 10, pp. 1345–1359, 2010.
 
 \bibitem{Krizhevsky2012} A. Krizhevsky, I. Sutskever, and G. E. Hinton, ``ImageNet classification with deep convolutional neural networks,'' in \textit{Proceedings of Advances in Neural Information Processing Systems (NeurIPS)}, pp. 1097–1105, 2012.
-
-\bibitem{Huang2017} G. Huang, Z. Liu, L. van der Maaten, and K. Q. Weinberger, ``Densely connected convolutional networks,'' in \textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, pp. 4700–4708, 2017.
 
 \bibitem{Goodfellow2016} I. Goodfellow, Y. Bengio, and A. Courville, \textit{Deep Learning}, MIT Press, 2016.
 
